@@ -19,7 +19,6 @@ jobs:
           script: |
             cd /python-tool-api
             git stash 
-            git fetch --all
             git reset --hard origin/main
             git pull origin main
             pkill -u ${{secrets.USER}} gunicorn

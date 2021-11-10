@@ -11,5 +11,17 @@ jobs:
     name: Deploy API to server
     steps:
       - name: Echo hello world
-        shell: bash
-        run: echo "Hello world"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            cd /python-tool-api
+            git stash -f
+            git fetch --all
+            git reset --hard origin/main
+            git pull origin main
+            pkill -u ${{secrets.USER}} gunicorn
+            gunicorn --bind 0.0.0.0:5050 api.app --daemon
+            sudo systemctl restart nginx

@@ -132,12 +132,12 @@ def getDigitalEyeAttributes(att_inp: str) -> Dict:
     return response
     # return "DigEyeatt"
 
-@app.route('/api/nft/<string:coll_inp>/<string:att_inp>/<float:price_inp>', methods=['GET'])
-def get_response(coll_inp, att_inp, price_inp)-> Dict:
+@app.route('/api/nft/<string:coll_inp>/<price_inp>', methods=['GET'])
+def get_response(coll_inp, price_inp)-> Dict:
     ret_dic_nft = dict()
 
     # price = 14
-    price = price_inp
+    price = float(price_inp)
 
     # SOLANART FILTERING
     # set to True to check if att_value is in attributes of the nft
@@ -145,7 +145,7 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
 
     # value of the attribute
     # att_value = "Zombie"
-    att_value = att_inp
+    # att_value = att_inp
 
     trait_type = "Title"
     value = "Monitor"
@@ -172,10 +172,10 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
     msg = "new data parsed for " + \
         str(collection[0]) + \
         " for maximum : " + str(price)
-    if filter_solanart:
-        msg = msg + " filtering for :" + att_value + " on solanart"
-    if trait_type is not None:
-        msg = msg + " filtering for " + value + " on digieyes"
+    # if filter_solanart:
+    #     msg = msg + " filtering for :" + att_value + " on solanart"
+    # if trait_type is not None:
+    #     msg = msg + " filtering for " + value + " on digieyes"
     ret_dic_nft["msg"] = msg
 
     ret_dic_nft["resp_Solanart"] = []
@@ -205,17 +205,7 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
                         nft: Dict = second_solanart['elem']
                     # print('206 ///////////////////')
                     if nft.get("price") < price:
-                        res_URL ="https://qzlsklfacc.medianetwork.cloud/nft_for_sale?collection=" + collection[0]
-                        if filter_solanart:
-                            if att_value in nft.get("attributes"):
-                                # ret_dic_nft["resp_Solanart"] = notification()
-                                ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- " +nft.get("link_img"))
-                            else:
-                                # ret_dic_nft["resp_Solanart"].append("Attribute does not fit")
-                                pass
-                        else:
-                            # ret_dic_nft["resp_Solanart"] = notification()
-                            ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- " +nft.get("link_img"))
+                        ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- " +nft.get("link_img"))
                     else:
                         # ret_dic_nft["resp_Solanart"].append("Price does not fit")
                         pass
@@ -257,29 +247,6 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
                     # print("167", nft["price"]/DIGITAL_CONSTANT)
                     if nft["price"] < price * DIGITAL_CONSTANT:
                         ret_dic_nft["resp_DigitalEye"].append(nft["metadata"]["name"] + " -- " + nft["metadata"]["image"])
-
-                        
-                        # print('259 ..........................')
-                        # print("169", nft["price"]/DIGITAL_CONSTANT)
-                        # if trait_type is not None:
-                        #     # print('262 ,,,,,,,,,,,,,,,,,,,,,,,', nft["metadata"]["attributes"])
-                        #     for att in nft["metadata"]:
-                        #         # try:
-                        #         #     print('264 ..............', att)
-                        #         # except:
-                        #         #     print('267 ..............', nft.get("attributes"))
-                        #         for att_val in nft["metadata"]["attributes"]:
-                        #             print(att_val['value'])
-                        #         if nft["metadata"]["attributes"]["trait_type"] == trait_type and nft["metadata"]["attributes"]["value"] == value:
-                        #             # print('266 ,,,,,,,')
-                        #             # ret_dic_nft["resp_DigitalEye"].append(res_URl)
-                        #             ret_dic_nft["resp_DigitalEye"].append(att["name"] + " -- " + att["image"])
-                        #         else:
-                        #             pass
-                        #             # ret_dic_nft["resp_DigitalEye"].append("Trait or attribute does not match")
-                        # else:
-                        #     # ret_dic_nft["resp_DigitalEye"].append(res_URl)
-                        #     ret_dic_nft["resp_DigitalEye"].append(nft["metadata"]["name"] + " -- " + nft["metadata"]["image"])
                     else:
                         pass
                         # ret_dic_nft["resp_DigitalEye"].append("Price does not fit")
@@ -299,13 +266,13 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
         print("292", e)
     return response
 
-@app.route('/api/check/<string:coll>')
+@app.route('/api/check/<coll>')
 def check_api(coll)-> Dict:
     ret_dic = dict()
-    ret_dic["query"] = coll
-    ret_dic["status"] = "Ping working as aspected"
+    coll = float(coll)
+    ret_dic["abs"] = coll
+    ret_dic["csv"] = "checking 2 is working fine"
     return ret_dic
-
 
 if __name__ == '__main__':
     app.run(port=5050)

@@ -307,7 +307,7 @@ def check_api(coll)-> Dict:
     return ret_dic
 
 @app.route('/test', methods=['GET'])
-def test(request):
+def test():
     return {"test": True}
 
 if __name__ == '__main__':

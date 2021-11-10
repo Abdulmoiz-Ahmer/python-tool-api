@@ -302,8 +302,8 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
 @app.route('/api/check/<string:coll>')
 def check_api(coll)-> Dict:
     ret_dic = dict()
-    ret_dic["abs"] = coll
-    ret_dic["csv"] = "checking 2 is working fine"
+    ret_dic["query"] = coll
+    ret_dic["status"] = "Ping working as aspected"
     return ret_dic
 
 

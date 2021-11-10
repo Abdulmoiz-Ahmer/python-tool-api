@@ -306,6 +306,9 @@ def check_api(coll)-> Dict:
     ret_dic["csv"] = "checking 2 is working fine"
     return ret_dic
 
+@app.route('/test', methods=['GET'])
+def test(request):
+    return {"test": True}
 
 if __name__ == '__main__':
     app.run(port=5050)

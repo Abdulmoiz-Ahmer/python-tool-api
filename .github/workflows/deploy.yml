@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy API to server
     steps:
-      - name: Echo hello world
+      - name: Deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -18,7 +18,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd /python-tool-api
-            git stash -f
+            git stash 
             git fetch --all
             git reset --hard origin/main
             git pull origin main

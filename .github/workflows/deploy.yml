@@ -1,0 +1,15 @@
+name: Deploy API
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy API to server
+    steps:
+      - name: Echo hello world
+        shell: bash
+        run: echo "Hello world"

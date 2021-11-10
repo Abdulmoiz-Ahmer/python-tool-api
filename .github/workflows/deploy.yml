@@ -18,9 +18,9 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd /python-tool-api
+            git clean -f -d
             git pull --no-rebase
             pip3 install -r requirements.txt
             pkill -u ${{secrets.USER}} gunicorn
             gunicorn --bind 0.0.0.0:5050 api.app --daemon
             sudo systemctl restart nginx
-            ps aux | grep gunicorn

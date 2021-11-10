@@ -18,11 +18,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd /python-tool-api
-            pip3 install -r requirements.txt
-            git stash
-            git fetch --all
-            git reset --hard origin/main
             git pull --no-rebase
+            pip3 install -r requirements.txt
             pkill -u ${{secrets.USER}} gunicorn
             gunicorn --bind 0.0.0.0:5050 api.app --daemon
             sudo systemctl restart nginx

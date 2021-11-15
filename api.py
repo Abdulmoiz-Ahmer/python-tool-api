@@ -132,8 +132,8 @@ def getDigitalEyeAttributes(att_inp: str) -> Dict:
     return response
     # return "DigEyeatt"
     
-@app.route('/api/nft/<string:coll_inp>/<string:att_inp>/<int:price_inp>', methods=['GET'])
 @app.route('/api/nft/<string:coll_inp>/<string:att_inp>/<float:price_inp>', methods=['GET'])
+@app.route('/api/nft/<string:coll_inp>/<string:att_inp>/<int:price_inp>', methods=['GET'])
 def get_response(coll_inp, att_inp, price_inp)-> Dict:
     ret_dic_nft = dict()
 

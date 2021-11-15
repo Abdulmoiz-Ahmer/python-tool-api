@@ -7,6 +7,7 @@ def getSetIdSolanart(collection: str) -> Dict:
     SetIdSol = dict()
     # url = "https://jmccmlyu33.medianetwork.cloud/nft_for_sale?collection=" + collection
     url = "https://qzlsklfacc.medianetwork.cloud/nft_for_sale?collection=" + collection
+    url = url.replace(" ", "").replace("&", "and").replace("2D Soldiers", "solarmy2d").replace("3D Soldiers", "solarmy3d").lower()
     try:
         counter= 0
         for elem in json.loads(urllib.request.urlopen(url).read()):

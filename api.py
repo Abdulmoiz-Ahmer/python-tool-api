@@ -210,13 +210,13 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
                         if filter_solanart:
                             if att_value in nft.get("attributes"):
                                 # ret_dic_nft["resp_Solanart"] = notification()
-                                ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- " +nft.get("link_img"))
+                                ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- https://solanart.io/search/?token=" +nft.get("token_add"))
                             else:
                                 # ret_dic_nft["resp_Solanart"].append("Attribute does not fit")
                                 pass
                         else:
                             # ret_dic_nft["resp_Solanart"] = notification()
-                            ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- " +nft.get("link_img"))
+                            ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- https://solanart.io/search/?token=" +nft.get("token_add"))
                     else:
                         # ret_dic_nft["resp_Solanart"].append("Price does not fit")
                         pass
@@ -257,7 +257,7 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
                     # print('256 ///////////////////')
                     # print("167", nft["price"]/DIGITAL_CONSTANT)
                     if nft["price"] < price * DIGITAL_CONSTANT:
-                        ret_dic_nft["resp_DigitalEye"].append(nft["metadata"]["name"] + " -- " + nft["metadata"]["image"])
+                        ret_dic_nft["resp_DigitalEye"].append(nft["metadata"]["name"] + " -- https://digitaleyes.market/item/" + coll_inp + "/" + nft["mint"] + "?pk=" + nft["pk"])
 
                         
                         # print('259 ..........................')

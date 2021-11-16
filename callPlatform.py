@@ -1,6 +1,7 @@
 import json
 import urllib.request
 from typing import List, Dict, Set
+import requests
 
 def getSetIdSolanart(collection: str) -> Dict:
     print("Start Solanart")

@@ -27,9 +27,21 @@ def getSetIdSolanart(collection: str) -> Dict:
 def getSetIdDigitalEyes(collection: str) -> Dict:
     print("DigitalEye")
     setId = dict()
-    url = "https://us-central1-digitaleyes-prod.cloudfunctions.net/offers-retriever?collection=" + collection
+    URL = "https://us-central1-digitaleyes-prod.cloudfunctions.net//offers-retriever"
+    PARAMS = {'collection':collection}
+    # url = 'https://us-central1-digitaleyes-prod.cloudfunctions.net//offers-retriever?collection=' + collection
+    # print('Platform-31 ', url)
     try:
-        offer_dict = json.loads(urllib.request.urlopen(url).read())
+        try:
+        #     offer_dict = json.loads(urllib.request.urlopen(url).read())
+        # except:
+        #     try:
+            offer_dict = requests.get(url = URL, params = PARAMS)
+            offer_dict = offer_dict.json()
+            # print('43', offer_dict)
+        except Exception as e:
+            offer_dict = ""
+            print("Call 37", e)
         for elem in offer_dict["offers"]:
             setId[elem["metadata"]["name"]] = elem
         return setId

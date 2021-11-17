@@ -142,7 +142,7 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
 
     # SOLANART FILTERING
     # set to True to check if att_value is in attributes of the nft
-    filter_solanart = False
+    filter_solanart = True
 
     # value of the attribute
     # att_value = "Zombie"
@@ -208,11 +208,22 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
                     if nft.get("price") < price:
                         res_URL ="https://qzlsklfacc.medianetwork.cloud/nft_for_sale?collection=" + collection[0]
                         if filter_solanart:
-                            if att_value in nft.get("attributes"):
-                                # ret_dic_nft["resp_Solanart"] = notification()
+                            list_att_val = att_value.split(',')
+                            all_att_ok = True
+                            for att_val_i in list_att_val:
+                                if att_val_i in nft.get("attributes"):
+                                    # print('212 ---------------------')
+                                    # ret_dic_nft["resp_Solanart"] = notification()
+                                    # ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- https://solanart.io/search/?token=" +nft.get("token_add"))
+                                    pass
+                                else:
+                                    all_att_ok = False
+                                    break
+                                    # ret_dic_nft["resp_Solanart"].append("Attribute does not fit")
+                                    pass
+                            if all_att_ok:
                                 ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- https://solanart.io/search/?token=" +nft.get("token_add"))
                             else:
-                                # ret_dic_nft["resp_Solanart"].append("Attribute does not fit")
                                 pass
                         else:
                             # ret_dic_nft["resp_Solanart"] = notification()

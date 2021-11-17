@@ -44,7 +44,7 @@ def get_collections():
         print("172", e)
     return response_col
 
-@app.route('/api/attributes/<string:att_inp>', methods=['GET'])
+@app.route('/api/solanart/attributes/<string:att_inp>', methods=['GET'])
 def getSolanartAttributes(att_inp: str) -> Dict:
     attDict = dict()
     # url = "https://jmccmlyu33.medianetwork.cloud/nft_for_sale?collection=" + collection

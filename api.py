@@ -210,8 +210,9 @@ def get_response(coll_inp, att_inp, price_inp)-> Dict:
                         if filter_solanart:
                             list_att_val = att_value.split(',')
                             all_att_ok = True
+                            list_all_att = nft.get("attributes").lower()
                             for att_val_i in list_att_val:
-                                if att_val_i in nft.get("attributes"):
+                                if att_val_i.lower() in list_all_att:
                                     # print('212 ---------------------')
                                     # ret_dic_nft["resp_Solanart"] = notification()
                                     # ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- https://solanart.io/search/?token=" +nft.get("token_add"))

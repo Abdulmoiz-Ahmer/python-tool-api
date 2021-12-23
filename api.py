@@ -137,7 +137,7 @@ def getDigitalEyeAttributes(att_inp: str) -> Dict:
 @app.route('/api/nft/<string:coll_inp>/<int:price_inp>', methods=['GET'])
 @app.route('/api/nft/<string:coll_inp>/<string:att_inp>/<float:price_inp>', methods=['GET'])
 @app.route('/api/nft/<string:coll_inp>/<string:att_inp>/<int:price_inp>', methods=['GET'])
-def get_response(coll_inp, price_inp, att_inp='none')-> Dict:
+def get_response(coll_inp, price_inp, att_inp='attribute')-> Dict:
     ret_dic_nft = dict()
 
     # price = 14
@@ -147,7 +147,7 @@ def get_response(coll_inp, price_inp, att_inp='none')-> Dict:
     # set to True to check if att_value is in attributes of the nft
     filter_solanart = True
 
-    if att_inp == "none":
+    if att_inp == "attribute":
         filter_solanart = False
 
     # value of the attribute

@@ -30,17 +30,16 @@ def getSetIdSolanart(collection: str) -> Dict:
     # collection = collection.lower()
     # url = "https://jmccmlyu33.medianetwork.cloud/nft_for_sale?collection=" + collection
     collection = get_list_ofcoll_link(collection)
-    url = "https://qzlsklfacc.medianetwork.cloud/nft_for_sale?collection=" + collection
+    # url = "https://qzlsklfacc.medianetwork.cloud/nft_for_sale?collection=" + collection
+    url_test = "https://qzlsklfacc.medianetwork.cloud/get_nft?collection="+collection+"&page=0&limit=100&order=&fits=any&trait=&search=&min=0&max=0&listed=true&ownedby=&attrib_count="
+    total_pages = json.loads(urllib.request.urlopen(url_test).read())["pagination"]["maxPages"]
+    print('pagination', total_pages)
     # url = url.replace(" ", "").replace("&", "and").replace("2D Soldiers", "solarmy2d").replace("3D Soldiers", "solarmy3d").lower()
     try:
-        counter= 0
-        for elem in json.loads(urllib.request.urlopen(url).read()):
-            if counter == 0:
-                # print(elem["id"])
-                # print(elem)
-                counter = 1
-            # SetIdSol[elem.get("id")] = elem
-            SetIdSol[elem["id"]] = elem
+        for x in range(total_pages):
+            for elem in json.loads(urllib.request.urlopen(url_test).read())["items"]:
+                # SetIdSol[elem.get("id")] = elem
+                SetIdSol[elem["id"]] = elem
         # print(SetIdSol)
         # return make_response(jsonify({"status": "ok", "data": SetIdSol}), 201)
         return SetIdSol

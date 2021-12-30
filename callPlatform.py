@@ -8,8 +8,8 @@ def read_text_file(file_name):
     file_text = f.readlines()
     return file_text
 
-def get_list_ofcoll_link(collec_name):
-    list1 = read_text_file("coll_link_solanart.txt")
+def get_list_ofcoll_link(filename, collec_name):
+    list1 = read_text_file(filename)
     ret_coll = "not_found"
     for x in list1:
         coll_name = x.split('~:')[0]
@@ -23,13 +23,35 @@ def get_list_ofcoll_link(collec_name):
         return ret_coll
     else:
         return collec_name
+    
+def getSetIdMagicEden(collection: str) -> Dict:
+    print("Start Magic Eden")
+    SetIdMgc = dict()
+    collection = get_list_ofcoll_link("coll_link_magicEden.txt",collection)
+    url_test = "https://api-mainnet.magiceden.io/rpc/getListedNFTsByQuery?q={%22$match%22:{%22collectionSymbol%22:%22"+collection+"%22},%22$sort%22:{%22createdAt%22:-1},%22$skip%22:0,%22$limit%22:20}"
+    r = requests.get(url_test,
+                        headers=headers,
+                        stream = True)
+    # return r.content
+    
+    # print(url_test)
+    try:
+        # count = 1
+        for elem in json.loads(r.content)["results"]:
+            # print(count)
+            SetIdMgc[elem["id"]] = elem
+            # count += 1
+        return SetIdMgc
+    except:
+        return "Collection not found"
+
 
 def getSetIdSolanart(collection: str) -> Dict:
     print("Start Solanart")
     SetIdSol = dict()
     # collection = collection.lower()
     # url = "https://jmccmlyu33.medianetwork.cloud/nft_for_sale?collection=" + collection
-    collection = get_list_ofcoll_link(collection)
+    collection = get_list_ofcoll_link("coll_link_solanart.txt",collection)
     # url = "https://qzlsklfacc.medianetwork.cloud/nft_for_sale?collection=" + collection
     url_test = "https://qzlsklfacc.medianetwork.cloud/get_nft?collection="+collection+"&page=0&limit=100&order=&fits=any&trait=&search=&min=0&max=0&listed=true&ownedby=&attrib_count="
     total_pages = json.loads(urllib.request.urlopen(url_test).read())["pagination"]["maxPages"]

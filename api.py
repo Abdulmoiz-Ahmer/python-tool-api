@@ -132,6 +132,51 @@ def getDigitalEyeAttributes(att_inp: str) -> Dict:
     return response
     # return "DigEyeatt"
 
+@app.route('/api/nft/magiceden/<string:coll_inp>/<float:price_inp>', methods=['GET'])
+@app.route('/api/nft/magiceden/<string:coll_inp>/<int:price_inp>', methods=['GET'])
+def get_response_mgcedn(coll_inp, price_inp)-> Dict:
+    ret_dic_nft = dict()
+
+    price = price_inp
+    try:
+        second_mgcedn = api_calls.getSetIdMagicEden(coll_inp)
+        print('143 ME')
+        if second_mgcedn == "Collection not found" or len(second_mgcedn) == 0:
+            pass
+        else:
+            print('147 ME')
+            ret_dic_nft["resp_MagicEden"] = []
+
+            for elem in second_mgcedn:
+                try:
+                    nft: Dict = second_mgcedn.get(elem)
+                except:
+                    nft: Dict = second_mgcedn['elem']
+                
+                # print('154 ME')
+
+                if nft.get("price") < price:
+                    # print('157 ME')
+                    # nft.get("title")
+                    ret_dic_nft["resp_MagicEden"].append(nft.get("title") + " -- https://www.magiceden.io/item-details/" +nft.get("mintAddress"))
+                    # ret_dic_nft["resp_MagicEden"].append(nft.get("title"))
+                    # print('159 ME')
+                    pass
+                else:
+                    pass
+            pass
+    except Exception as e:
+        print('Exception Mgcedn', e)
+
+    response = flask.jsonify({'NFT': ret_dic_nft})
+    print("163", response)
+    try:
+        response.headers.add('Access-Control-Allow-Origin', '*')
+    except Exception as e:
+        print("167", e)
+    return response
+
+    
 
 @app.route('/api/nft/<string:coll_inp>/<float:price_inp>', methods=['GET'])
 @app.route('/api/nft/<string:coll_inp>/<int:price_inp>', methods=['GET'])

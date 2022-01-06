@@ -134,10 +134,19 @@ def getDigitalEyeAttributes(att_inp: str) -> Dict:
 
 @app.route('/api/nft/magiceden/<string:coll_inp>/<float:price_inp>', methods=['GET'])
 @app.route('/api/nft/magiceden/<string:coll_inp>/<int:price_inp>', methods=['GET'])
-def get_response_mgcedn(coll_inp, price_inp)-> Dict:
+@app.route('/api/nft/magiceden/<string:coll_inp>/<string:att_inp>/<float:price_inp>', methods=['GET'])
+@app.route('/api/nft/magiceden/<string:coll_inp>/<string:att_inp>/<int:price_inp>', methods=['GET'])
+def get_response_mgcedn(coll_inp, price_inp, att_inp='attribute')-> Dict:
     ret_dic_nft = dict()
 
     price = price_inp
+
+    filter_attribute = True
+
+    if att_inp == "attribute":
+        filter_attribute = False
+
+    att_value = att_inp
     try:
         second_mgcedn = api_calls.getSetIdMagicEden(coll_inp)
         print('143 ME')
@@ -158,7 +167,33 @@ def get_response_mgcedn(coll_inp, price_inp)-> Dict:
                 if nft.get("price") < price:
                     # print('157 ME')
                     # nft.get("title")
-                    ret_dic_nft["resp_MagicEden"].append(nft.get("title") + " -- https://www.magiceden.io/item-details/" +nft.get("mintAddress"))
+                    if filter_attribute:
+                        list_att_val = att_value.split(',')
+                        all_attr = nft.get("attributes")
+                        list_att_str = []
+                        for att_ind in all_attr:
+                            # print(att_ind)
+                            # print(att_ind.get("trait_type"))
+                            list_att_str.append(att_ind.get("trait_type").lower()+": "+att_ind.get("value").lower())
+                        # print(list_att_str)
+                        all_att_ok = True
+                        for att_val_i in list_att_val:
+                            if att_val_i.lower() in list_att_str:
+                                # print('212 ---------------------')
+                                # ret_dic_nft["resp_Solanart"] = notification()
+                                # ret_dic_nft["resp_Solanart"].append(nft.get("name") + " -- https://solanart.io/search/?token=" +nft.get("token_add"))
+                                pass
+                            else:
+                                all_att_ok = False
+                                break
+                                # ret_dic_nft["resp_Solanart"].append("Attribute does not fit")
+                                pass
+                        if all_att_ok:
+                            ret_dic_nft["resp_MagicEden"].append(nft.get("title") + " -- https://www.magiceden.io/item-details/" +nft.get("mintAddress"))
+                        else:
+                            pass
+                    else:
+                        ret_dic_nft["resp_MagicEden"].append(nft.get("title") + " -- https://www.magiceden.io/item-details/" +nft.get("mintAddress"))
                     # ret_dic_nft["resp_MagicEden"].append(nft.get("title"))
                     # print('159 ME')
                     pass
@@ -167,6 +202,15 @@ def get_response_mgcedn(coll_inp, price_inp)-> Dict:
             pass
     except Exception as e:
         print('Exception Mgcedn', e)
+
+    response = flask.jsonify({'NFT': ret_dic_nft})
+    print("163", response)
+    try:
+        response.headers.add('Access-Control-Allow-Origin', '*')
+    except Exception as e:
+        print("167", e)
+    return response
+
 
     response = flask.jsonify({'NFT': ret_dic_nft})
     print("163", response)

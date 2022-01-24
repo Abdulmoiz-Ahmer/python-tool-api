@@ -7,6 +7,7 @@ from enum import Enum
 import flask
 from flask_cors import cross_origin
 import callPlatform as api_calls
+import requests
 
 DIGITAL_CONSTANT = 1000000000
 

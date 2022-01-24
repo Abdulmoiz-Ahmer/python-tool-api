@@ -45,7 +45,7 @@ def get_collections():
     return response_col
 
 @app.route('/api/collections/<string:coll_inp>', methods=['GET'])
-def getSolanaCollections(coll_inp: str) -> Dict:
+def getCollections(coll_inp: str) -> Dict:
     collDict = dict()
     list_coll_name = requests.get('https://cryptobros-76836-default-rtdb.firebaseio.com/Collections/'+coll_inp+'.json')
 
@@ -53,14 +53,9 @@ def getSolanaCollections(coll_inp: str) -> Dict:
     collDict['collections'] = []
     for x in list_coll_name.json():
         # print(list_coll_name.json()[x].keys())
-        collDict['collections'].append(list_coll_name.json()[x]["name"])    
-
-    # for z in ret_list:
-    #     print(z)
-    # pass
+        collDict['collections'].append(list_coll_name.json()[x]["name"])
     
     response = flask.jsonify({'response': collDict})
-    # print("170", response)
     try:
         response.headers.add('Access-Control-Allow-Origin', '*')
     except Exception as e:
